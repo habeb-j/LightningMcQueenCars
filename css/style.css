@@ -121,7 +121,7 @@ body {
 /* التنسيق الخاص بأسماء مجموعة الطلاب */
 .students {
   overflow: hidden;
-  padding: 20px 2%;
+  padding: 10px 2%;
   background-color: #f4f4f4;
 }
 .student {
@@ -139,24 +139,16 @@ body {
 .student:hover {
   background-color: #333333;
 }
-.gold-text {
-  font-size: 18px;
-  color: #ffcc00;
-  font-weight: bold;
-  border-bottom: 1px solid #444;
-  padding-bottom: 10px;
-  margin-bottom: 15px;
-  /* هذا هو أنحف حد أسود ممكن في CSS (1 بكسل بدون أي ضبابية) */
-  text-shadow:
-    1px 0 0 #000,
-    -1px 0 0 #000,
-    0 1px 0 #000,
-    0 -1px 0 #000;
-}
 .student p {
   font-size: 14px;
   color: #cccccc;
   font-style: italic;
+}
+.student hr {
+  border: none;
+  border-top: 1px solid #444;
+  margin: 15px auto;
+  width: 85%;
 }
 /* ========================================================= */
 /* الصوؤة الرئيسية */
@@ -246,11 +238,12 @@ body {
   margin-top: 10px;
   font-weight: bold;
 }
-.info-box input[type="text"] {
+.info-box input {
   width: 100%;
   padding: 10px;
   margin-top: 5px;
   border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 .info-box #submitBtn {
   background-color: #4caf50;
@@ -297,6 +290,18 @@ body {
   width: auto;
   vertical-align: middle;
 }
+/* ========================================================= */
+/* الخط الذهبي*/
+.gold-text {
+  font-size: 18px;
+  color: #ffcc00;
+  font-weight: bold;
+  text-shadow:
+    1px 0 0 #000,
+    -1px 0 0 #000,
+    0 1px 0 #000,
+    0 -1px 0 #000;
+}
 /* --------------------------------------------------------------- */
 a {
   text-decoration: none;
@@ -304,5 +309,5 @@ a {
 }
 .container {
   width: 90%;
-  margin: 30px auto 20px auto;
+  margin: 10px auto 10px auto;
 }

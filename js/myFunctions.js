@@ -59,6 +59,7 @@ $(document).ready(function () {
       return;
     }
     //   الفورم و اعدادته
+    var today = new Date().toISOString().split("T")[0];
     var formHtml = `
             <form id="rentForm" action="" method="get">
                 <fieldset>
@@ -67,16 +68,19 @@ $(document).ready(function () {
                     <input type="text" id="fullName" name="fullName" placeholder="إلزامي - الرجاء إدخال أحرف عربية فقط" />
                     <label for="nationalID">الرقم الوطني:</label>
                     <input type="tel" id="nationalID" name="nationalID"  placeholder="إلزامي - تأكد أنك تدخل 11 خانة" oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
+                    
                     <label for="startDate">تاريخ بداية التأجير:</label>
                     <div style="overflow: hidden; margin-bottom: 10px;">
-                        <input type="date" id="startDate" name="startDate" style="width: 80%; float: right;" />
-                        <span style="color: red; float: left; line-height: 35px; font-weight: bold;">(إلزامي)</span>
+                        <input type="date" id="startDate" name="startDate" min="${today}" style="width: 75%; float: right;" />
+                        <span style="color: red; float: left; line-height: 38px; font-weight: bold;">(إلزامي)</span>
                     </div>
+                    
                     <label for="endDate">تاريخ نهاية التأجير:</label>
                     <div style="overflow: hidden; margin-bottom: 10px;">
-                        <input type="date" id="endDate" name="endDate" style="width: 80%; float: right;" />
-                        <span style="color: red; float: left; line-height: 35px; font-weight: bold;">(إلزامي)</span>
+                        <input type="date" id="endDate" name="endDate" min="${today}" style="width: 75%; float: right;" />
+                        <span style="color: red; float: left; line-height: 38px; font-weight: bold;">(إلزامي)</span>
                     </div>
+                    
                     <label for="mobile">رقم الموبايل(اختياري):</label>
                     <input type="tel" id="mobile" name="mobile" value="09" dir="ltr" style="text-align: right;" oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
                     <label for="email">البريد الإلكتروني (اختياري):</label>
@@ -122,19 +126,28 @@ $(document).ready(function () {
         alert("الرجاء إدخال التواريخ بالصيغة الصحيحة (yyyy-mm-dd).");
         return;
       }
-
+      //  معالجة إدخال التواريخ
       var start = new Date(startDate);
       var end = new Date(endDate);
-
+      var todayDate = new Date();
+      todayDate.setHours(0, 0, 0, 0);
       if (isNaN(start.getTime()) || isNaN(end.getTime())) {
         alert("التواريخ المدخلة غير صالحة.");
         return;
       }
-      if (end <= start) {
-        alert("تاريخ النهاية يجب أن يكون لاحقاً لتاريخ البداية.");
+      if (start < todayDate) {
+        alert(
+          "تاريخ البداية لا يمكن أن يكون في الماضي. الرجاء اختيار تاريخ اليوم أو تاريخ لاحق.",
+        );
         return;
       }
-
+      if (end < start) {
+        alert("تاريخ النهاية يجب أن يكون مساوياً أو لاحقاً لتاريخ البداية.");
+        return;
+      }
+      var timeDiff = end.getTime() - start.getTime();
+      var days = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
+      /////////////////////////////////////////
       if (
         mobile.length > 2 &&
         mobile.search(/^(093|094|095|096|098|099)\d{7}$/) !== 0
@@ -148,10 +161,6 @@ $(document).ready(function () {
         alert("الرجاء إدخال بريد إلكتروني صحيح.");
         return;
       }
-
-      var timeDiff = end.getTime() - start.getTime();
-      var days = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
       var totalCost = 0;
       var message = "السيارات المختارة:\n";
 
