@@ -1,111 +1,3 @@
-var carDetails = {
-  "CR-001": {
-    fuel: "بنزين",
-    trans: "أوتوماتيك",
-    seats: 5,
-    odo: 0,
-    color: "أبيض",
-  },
-  "CR-002": {
-    fuel: "بنزين",
-    trans: "أوتوماتيك",
-    seats: 5,
-    odo: 15000,
-    color: "أسود",
-  },
-  "CR-003": {
-    fuel: "بنزين",
-    trans: "أوتوماتيك",
-    seats: 5,
-    odo: 0,
-    color: "فضي",
-  },
-  "CR-004": {
-    fuel: "بنزين",
-    trans: "عادي",
-    seats: 4,
-    odo: 30000,
-    color: "أحمر",
-  },
-  "CR-005": {
-    fuel: "بنزين",
-    trans: "أوتوماتيك",
-    seats: 5,
-    odo: 5000,
-    color: "رمادي",
-  },
-  "CR-006": {
-    fuel: "بنزين",
-    trans: "أوتوماتيك",
-    seats: 5,
-    odo: 20000,
-    color: "أزرق",
-  },
-  "CR-007": {
-    fuel: "بنزين",
-    trans: "أوتوماتيك",
-    seats: 5,
-    odo: 10000,
-    color: "أبيض",
-  },
-  "CR-008": {
-    fuel: "بنزين",
-    trans: "أوتوماتيك",
-    seats: 5,
-    odo: 0,
-    color: "أحمر",
-  },
-  "CR-009": {
-    fuel: "بنزين",
-    trans: "أوتوماتيك",
-    seats: 7,
-    odo: 5000,
-    color: "أسود",
-  },
-  "CR-010": {
-    fuel: "بنزين",
-    trans: "أوتوماتيك",
-    seats: 5,
-    odo: 0,
-    color: "فضي",
-  },
-  "CR-011": {
-    fuel: "بنزين",
-    trans: "أوتوماتيك",
-    seats: 5,
-    odo: 40000,
-    color: "رمادي",
-  },
-  "CR-012": {
-    fuel: "بنزين",
-    trans: "أوتوماتيك",
-    seats: 7,
-    odo: 15000,
-    color: "أزرق",
-  },
-  "CR-013": {
-    fuel: "بنزين",
-    trans: "أوتوماتيك",
-    seats: 5,
-    odo: 60000,
-    color: "أبيض",
-  },
-  "CR-014": {
-    fuel: "بنزين",
-    trans: "أوتوماتيك",
-    seats: 5,
-    odo: 10000,
-    color: "أسود",
-  },
-  "CR-015": {
-    fuel: "بنزين",
-    trans: "أوتوماتيك",
-    seats: 5,
-    odo: 25000,
-    color: "فضي",
-  },
-};
-
 $(document).ready(function () {
   $(".show-details").change(function () {
     var id = $(this).val();
@@ -127,11 +19,11 @@ $(document).ready(function () {
         ":</strong> نوع الوقود: " +
         data.fuel +
         " | ناقل الحركة: " +
-        data.trans +
+        data.transmission +
         " | عدد المقاعد: " +
-        data.seats +
+        data.seatsNum +
         " | عداد الكيلومترات: " +
-        data.odo +
+        data.Odometer +
         " | اللون: " +
         data.color +
         "<div style='clear: both;'></div></div>";
@@ -166,23 +58,29 @@ $(document).ready(function () {
       alert("الرجاء اختيار سيارة واحدة على الأقل.");
       return;
     }
-
+    //   الفورم و اعدادته
     var formHtml = `
             <form id="rentForm" action="" method="get">
                 <fieldset>
                     <legend>معلومات مقدم الطلب</legend>
-                    <label for="fullName">الاسم الكامل (أحرف عربية فقط):</label>
-                    <input type="text" id="fullName" name="fullName" />
-                    <label for="nationalID">الرقم الوطني (11 خانة):</label>
-                    <input type="text" id="nationalID" name="nationalID" />
+                    <label for="fullName">الاسم الكامل:</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="إلزامي - الرجاء إدخال أحرف عربية فقط" />
+                    <label for="nationalID">الرقم الوطني:</label>
+                    <input type="tel" id="nationalID" name="nationalID"  placeholder="إلزامي - تأكد أنك تدخل 11 خانة" oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
                     <label for="startDate">تاريخ بداية التأجير:</label>
-                    <input type="date" id="startDate" name="startDate" />
+                    <div style="overflow: hidden; margin-bottom: 10px;">
+                        <input type="date" id="startDate" name="startDate" style="width: 80%; float: right;" />
+                        <span style="color: red; float: left; line-height: 35px; font-weight: bold;">(إلزامي)</span>
+                    </div>
                     <label for="endDate">تاريخ نهاية التأجير:</label>
-                    <input type="date" id="endDate" name="endDate" />
-                    <label for="mobile">رقم الموبايل (اختياري):</label>
-                    <input type="text" id="mobile" name="mobile" />
+                    <div style="overflow: hidden; margin-bottom: 10px;">
+                        <input type="date" id="endDate" name="endDate" style="width: 80%; float: right;" />
+                        <span style="color: red; float: left; line-height: 35px; font-weight: bold;">(إلزامي)</span>
+                    </div>
+                    <label for="mobile">رقم الموبايل(اختياري):</label>
+                    <input type="tel" id="mobile" name="mobile" value="09" dir="ltr" style="text-align: right;" oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
                     <label for="email">البريد الإلكتروني (اختياري):</label>
-                    <input type="text" id="email" name="email" />
+                    <input type="text" id="email" name="email"  placeholder="اختياري"/>
                     <button type="submit" id="submitBtn">إرسال الطلب</button>
                 </fieldset>
             </form>
@@ -200,7 +98,11 @@ $(document).ready(function () {
       var endDate = $("#endDate").val();
       var mobile = $("#mobile").val();
       var email = $("#email").val();
-
+      //شروط الإدخالات في الفورم
+      if (fullName === "") {
+        alert("الرجاء إدخال الاسم الكامل.");
+        return;
+      }
       if (fullName.search(/^[\u0600-\u06FF\s]+$/) !== 0) {
         alert("الرجاء إدخال اسم صحيح (أحرف عربية فقط).");
         return;
@@ -234,10 +136,12 @@ $(document).ready(function () {
       }
 
       if (
-        mobile !== "" &&
+        mobile.length > 2 &&
         mobile.search(/^(093|094|095|096|098|099)\d{7}$/) !== 0
       ) {
-        alert("الرجاء إدخال رقم موبايل صحيح.");
+        alert(
+          "أنت حاولت إدخال رقم موبايل , الرجاء إدخال رقم موبايل صحيح أو اتركه فارغا.",
+        );
         return;
       }
       if (email !== "" && email.search(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) !== 0) {
@@ -284,3 +188,111 @@ $(document).ready(function () {
     });
   });
 });
+// مصفوفة بالسيارات و مواصفاتها
+var carDetails = {
+  "CR-001": {
+    fuel: "بنزين",
+    transmission: "أوتوماتيك",
+    seatsNum: 5,
+    Odometer: 17883,
+    color: "أبيض",
+  },
+  "CR-002": {
+    fuel: "بنزين",
+    transmission: "أوتوماتيك",
+    seatsNum: 5,
+    Odometer: 15590,
+    color: "أسود",
+  },
+  "CR-003": {
+    fuel: "بنزين",
+    transmission: "أوتوماتيك",
+    seatsNum: 5,
+    Odometer: 12993,
+    color: "فضي",
+  },
+  "CR-004": {
+    fuel: "بنزين",
+    transmission: "عادي",
+    seatsNum: 4,
+    Odometer: 30675,
+    color: "أحمر",
+  },
+  "CR-005": {
+    fuel: "بنزين",
+    transmission: "أوتوماتيك",
+    seatsNum: 5,
+    Odometer: 50129,
+    color: "رمادي",
+  },
+  "CR-006": {
+    fuel: "بنزين",
+    transmission: "أوتوماتيك",
+    seatsNum: 5,
+    Odometer: 29872,
+    color: "أزرق",
+  },
+  "CR-007": {
+    fuel: "بنزين",
+    transmission: "أوتوماتيك",
+    seatsNum: 5,
+    Odometer: 11904,
+    color: "أبيض",
+  },
+  "CR-008": {
+    fuel: "بنزين",
+    transmission: "أوتوماتيك",
+    seatsNum: 5,
+    Odometer: 43661,
+    color: "أحمر",
+  },
+  "CR-009": {
+    fuel: "بنزين",
+    transmission: "أوتوماتيك",
+    seatsNum: 7,
+    Odometer: 25033,
+    color: "أسود",
+  },
+  "CR-010": {
+    fuel: "بنزين",
+    transmission: "أوتوماتيك",
+    seatsNum: 5,
+    Odometer: 8766,
+    color: "فضي",
+  },
+  "CR-011": {
+    fuel: "بنزين",
+    transmission: "أوتوماتيك",
+    seatsNum: 5,
+    Odometer: 49943,
+    color: "رمادي",
+  },
+  "CR-012": {
+    fuel: "بنزين",
+    transmission: "أوتوماتيك",
+    seatsNum: 7,
+    Odometer: 15265,
+    color: "أزرق",
+  },
+  "CR-013": {
+    fuel: "بنزين",
+    transmission: "أوتوماتيك",
+    seatsNum: 5,
+    Odometer: 63259,
+    color: "أبيض",
+  },
+  "CR-014": {
+    fuel: "بنزين",
+    transmission: "أوتوماتيك",
+    seatsNum: 5,
+    Odometer: 12134,
+    color: "أسود",
+  },
+  "CR-015": {
+    fuel: "بنزين",
+    transmission: "أوتوماتيك",
+    seatsNum: 5,
+    Odometer: 25441,
+    color: "فضي",
+  },
+};
